@@ -1,11 +1,34 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {useForm} from "react-hook-form"
+
 
 const Registration = () => {
+    const {register, handleSubmit} = useForm({shouldUseNativeValidation: true})
+
+    const onSubmit = async (user) => {
+        try {
+            await fetch(`http://localhost:4200/registration/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nickname: user.nickname,
+                    email: user.email,
+                    password: user.password
+                })
+            })
+            console.log("user added")
+        } catch (error) {
+            console.log("error", error)
+        }
+    }
+
     return (<div className="flex flex-col">
-        <form className="flex flex-col">
+        <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group mb-6">
-                <input type="text" className="form-control block
+                <input {...register("nickname", {required: "nickname required"})} type="text" className="form-control block
         w-6/12
         mx-auto
         text-center
@@ -24,7 +47,7 @@ const Registration = () => {
                        placeholder="nickname"/>
             </div>
             <div className="form-group mb-6">
-                <input type="email" className="form-control block
+                <input {...register("email", {required: "email required"})} type="email" className="form-control block
         w-6/12
         mx-auto
         text-center
@@ -43,7 +66,7 @@ const Registration = () => {
                        placeholder="email"/>
             </div>
             <div className="form-group mb-6">
-                <input type="password" className="form-control block
+                <input {...register("password", {required: "password required"})} type="password" className="form-control block
         w-6/12
         mx-auto
         text-center
@@ -61,7 +84,8 @@ const Registration = () => {
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput125"
                        placeholder="password"/>
             </div>
-            <button type="submit" className="w-6/12 mx-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+            <button type="submit"
+                    className="w-6/12 mx-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                 Sign up
             </button>
         </form>
