@@ -6,6 +6,11 @@ user.get('/', async (req, res) => {
     const result = await userModel.findAll()
     res.json(result)
 })
+
+user.post('/registration', async (req, res) => {
+    const result = await userModel.addNewUser(req.body)
+    res.json(result)
+})
 //
 // user.get('/:id', async (req, res) => {
 //     const result = await user.findById()

@@ -1,5 +1,6 @@
 const neo4j = require('neo4j-driver');
 require('dotenv').config()
+const bcrypt = require('bcrypt')
 const {
     url,
     db_username,
@@ -17,6 +18,19 @@ const findAll = async () => {
     return result.record
 }
 
+const addNewUser = async (user) => {
+    try {
+        const newSession = driver.session({database});
+        const hash = await bcrypt.hash(user.password, 10);
+        await newSession.run(`CREATE (n:User {nickname: $nickname, email: $email, password: $password})`, {nickname: user.nickname, email: user.email, password: hash});
+        await newSession.close();
+        return user;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 export default {
-    findAll
+    findAll,
+    addNewUser
 }
