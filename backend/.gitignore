@@ -1,0 +1,8 @@
+db/data
+db/plugins
+db/logs
+
+/express_server/node_modules
+/express_server/bablerc
+/express_server/.env
+/express_server/yarn.lock
