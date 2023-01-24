@@ -1,14 +1,17 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form"
+import checkCookie from "./CheckCookie";
 
 
 const Registration = () => {
     const {register, handleSubmit} = useForm({shouldUseNativeValidation: true})
+    const navigate = useNavigate()
+    const isLoggedIn = checkCookie()
 
     const onSubmit = async (user) => {
         try {
-            await fetch(`http://localhost:4200/registration/`, {
+            const response = await fetch(`http://localhost:4200/registration/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -19,6 +22,13 @@ const Registration = () => {
                     password: user.password
                 })
             })
+            const jsonResponse = await response.json()
+            if (isLoggedIn) {
+                console.log("user logged in")
+                navigate(`/${jsonResponse.nickname}/home`)
+            } else {
+                console.log("user didnt logged")
+            }
             console.log("user added")
         } catch (error) {
             console.log("error", error)

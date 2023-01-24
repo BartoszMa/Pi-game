@@ -39,7 +39,7 @@ const addNewUser = async (user) => {
         });
         await newSession.close();
         console.log("user created")
-        return {status: 'success', message: 'User created'};
+        return {status: 'success', message: user.nickname};
     } catch (error) {
         throw new Error(error);
     }
