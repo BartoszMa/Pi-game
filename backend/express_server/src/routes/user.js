@@ -11,11 +11,16 @@ user.post('/registration', async (req, res) => {
     const result = await userModel.addNewUser(req.body)
     res.json(result)
 })
-//
-// user.get('/:id', async (req, res) => {
-//     const result = await user.findById()
-//     res.json(result)
-// })
+
+user.post('/login', async (req, res) => {
+    const result = await userModel.login(req.body)
+    if (result.status === 'success') {
+        res.json({status: 'success', nickname: result.message})
+    } else {
+        res.json("login failed")
+    }
+})
+
 
 export default user
 
