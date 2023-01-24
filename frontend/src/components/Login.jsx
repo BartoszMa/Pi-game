@@ -5,6 +5,7 @@ import {useForm} from "react-hook-form"
 const Login = () => {
     const {register, handleSubmit} = useForm({shouldUseNativeValidation: true})
     const navigate = useNavigate()
+
     const onSubmit = async (user) => {
         try {
             const response = await fetch(`http://localhost:4200/login/`, {
