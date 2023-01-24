@@ -4,6 +4,10 @@ import {Route, Routes} from "react-router-dom"
 import Registration from "./components/Registration"
 import Login from "./components/Login"
 import Start from "./components/Start"
+import Home from "./components/Home"
+import Game from "./components/Game"
+import Chat from "./components/Chat"
+import Leaderboard from "./components/Leaderboard"
 
 
 export default function App() {
@@ -13,7 +17,11 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<Start/>}/>
                 <Route path="/registration" element={<Registration/>}/>
-                {/*<Route path="/login" element={<Login/>}/>*/}
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/:nickname/home" element={<Home/>}/>
+                <Route path="/:nickname/game" element={<Game/>}/>
+                <Route path="/:nickname/chat" element={<Chat/>}/>
+                <Route path="/leaderboard" element={<Leaderboard/>}/>
             </Routes>
         </div>
     )
