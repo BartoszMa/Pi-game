@@ -71,7 +71,7 @@ const login = async (user, res) => {
 const createNewGame = async (user) => {
     try {
         const session = driver.session({database});
-        await session.run(`MERGE (user:User {nickname: "${user.nickname}"}) CREATE (game:Game {id: "${user.id}", nickname: "${user.nickname}", score: 0}) CREATE (user)-[:CREATED]->(game)`);
+        await session.run(`MERGE (user:User {nickname: "${user.nickname}"}) CREATE (game:Game {id: "${user.id}", nickname: "${user.nickname}", score: 0}) CREATE (user)-[:GAME]->(game)`);
         await session.close();
         return {status: 'success', message: 'game created'}
     } catch (error) {
