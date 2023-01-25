@@ -1,27 +1,36 @@
-import CheckCookie from "./CheckCookie";
-import {useNavigate, useParams} from "react-router-dom";
+import RedirectIfNotLogged from "./RedirectIfNotLogged";
+import {Link, useParams} from "react-router-dom";
+import React from "react";
+import Logout from "./Logout";
 
 const Home = () => {
-    // const { nickname } = useParams()
-    // const navigate = useNavigate()
-    //
-    // const isLoggedIn = async () => {
-    //     const cookie = CheckCookie()
-    //     return (await cookie).isLoggedIn
-    // }
-    //
-    // const checkNickname = async () => {
-    //     const cookie = CheckCookie()
-    //     return ((await cookie).nickname).toString()
-    // }
-    // console.log(checkNickname())
-    //
-    // // const cookie = CheckCookie()
-    // if(!(isLoggedIn()) || !(checkNickname() === nickname)) {
-    //     navigate(`/login`)
-    // }
-    //
-    // return(<p>{nickname}</p>)
+    RedirectIfNotLogged()
+    const {nickname} = useParams()
+    return (
+        <div className="flex flex-col text-center">
+            <button
+                className="mb-6 w-6/12 mx-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                <Link to={`/${nickname}/game`}>New Game</Link>
+            </button>
+            <button
+                className="mb-6 w-6/12 mx-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                <Link to={`/${nickname}/profile`}>Profile</Link>
+            </button>
+            <button
+                className="mb-6 w-6/12 mx-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                <Link to={`/leaderboard`}>Leaderboard</Link>
+            </button>
+            <button
+                className="mb-6 w-6/12 mx-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                <Link to={`/${nickname}/chat`}>Chat</Link>
+            </button>
+            <button onClick={Logout}
+                    className="mb-6 w-6/12 mx-auto bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+                Logout
+            </button>
+        </div>
+    )
+
 }
 
-export default Home
+export default Home;

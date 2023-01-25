@@ -2,8 +2,11 @@ import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form"
 import checkCookie from "./CheckCookie";
+import RedirectIfLogged from "./RedirectIfLogged";
 
 const Login = () => {
+    RedirectIfLogged()
+
     const {register, handleSubmit} = useForm({shouldUseNativeValidation: true})
     const navigate = useNavigate()
 

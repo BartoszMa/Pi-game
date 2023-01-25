@@ -2,8 +2,7 @@ import {Router} from "express";
 import userModel from '../models/user'
 
 const user = Router()
-const expiresInMinutes = 20;
-const expiresTime = new Date(Date.now() + expiresInMinutes * 60000);
+const expiresInMinutes = 30;
 
 
 user.get('/', async (req, res) => {
@@ -29,10 +28,14 @@ user.post('/login', async (req, res) => {
     const result = await userModel.login(req.body)
     if (result.status === 'success') {
         res.cookie('isLoggedIn', true, {
-            expires: expiresTime,
+            expires: new Date(Date.now() + expiresInMinutes * 60000),
             httpOnly: true,
         });
-        res.cookie('nickname', result.message, {expires: expiresTime, httpOnly: true});
+
+        res.cookie('nickname', result.message, {
+            expires: new Date(Date.now() + expiresInMinutes * 60000),
+            httpOnly: true
+        });
         res.json({status: 'success', nickname: result.message})
 
     } else {
@@ -46,6 +49,12 @@ user.get('/check-cookie', (req, res) => {
     } else {
         res.json({isLoggedIn: false});
     }
+});
+
+user.get('/logout', (req, res) => {
+    res.clearCookie('isLoggedIn');
+    res.clearCookie('nickname');
+    res.redirect('/login');
 });
 
 export default user

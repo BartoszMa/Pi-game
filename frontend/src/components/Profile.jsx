@@ -1,7 +1,7 @@
 import RedirectIfNotLogged from "./RedirectIfNotLogged";
 
-const Game = () => {
+const Profile = () => {
     RedirectIfNotLogged()
 }
 
-export default Game
+export default Profile
