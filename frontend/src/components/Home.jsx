@@ -24,9 +24,9 @@ const Home = () => {
                 className="mb-6 w-6/12 mx-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                 <Link to={`/${nickname}/chat`}>Chat</Link>
             </button>
-            <button onClick={Logout}
+            <button
                     className="mb-6 w-6/12 mx-auto bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
-                Logout
+                <Logout/>
             </button>
         </div>
     )

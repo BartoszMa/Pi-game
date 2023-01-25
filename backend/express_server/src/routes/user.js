@@ -43,7 +43,7 @@ user.post('/login', async (req, res) => {
     }
 })
 
-user.get('/check-cookie', (req, res) => {
+user.get('/check-cookie', async (req, res) => {
     if (req.cookies.isLoggedIn) {
         res.json({isLoggedIn: true, nickname: req.cookies.nickname});
     } else {
@@ -56,6 +56,11 @@ user.get('/logout', (req, res) => {
     res.clearCookie('nickname');
     res.redirect('/login');
 });
+
+user.post('/:nickname/game', (req, res) => {
+
+})
+
 
 export default user
 
