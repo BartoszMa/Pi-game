@@ -13,7 +13,6 @@ const RedirectIfLogged = () => {
             }
         }
         checkCookies();
-
     }, []);
 }
 

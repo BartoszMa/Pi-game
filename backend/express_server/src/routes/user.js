@@ -57,8 +57,10 @@ user.get('/logout', (req, res) => {
     res.redirect('/login');
 });
 
-user.post('/:nickname/game', (req, res) => {
-
+user.post('/:nickname/game', async (req, res) => {
+    await userModel.createNewGame(req.body)
+    console.log("new game")
+    res.json("success")
 })
 
 
