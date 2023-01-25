@@ -13,7 +13,7 @@ const RedirectIfNotLogged = () => {
             if (cookie.isLoggedIn && cookie.nickname === nickname) {
                 setIsLoggedIn(true);
             } else {
-                navigate(`/login`);
+                navigate(`/`);
             }
         }
         checkCookies();

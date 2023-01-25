@@ -25,6 +25,7 @@ export default function App() {
                 <Route path="/:nickname/game" element={<Game/>}/>
                 <Route path="/:nickname/chat" element={<Chat/>}/>
                 <Route path="/leaderboard" element={<Leaderboard/>}/>
+                <Route path="*" element={<Start/>}/>
             </Routes>
         </div>
     )
