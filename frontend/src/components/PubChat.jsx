@@ -1,24 +1,25 @@
-
 import React from "react";
-import RedirectIfNotLogged from "./RedirectIfNotLogged";
+import mqtt from "mqtt/dist/mqtt";
 import {useForm} from "react-hook-form";
-import {useNavigate, useParams} from "react-router-dom";
+import CheckCookie from "./CheckCookie";
 
-const Chat = () => {
-    RedirectIfNotLogged()
-    const {nickname} = useParams()
-    const navigate = useNavigate()
 
-    const {register, handleSubmit} = useForm({shouldUseNativeValidation: true})
+const PubChat = ({room}) => {
 
-    const onSubmit = (room) => {
-        navigate(`/${nickname}/chat/${room.name}`)
+    const client = mqtt.connect('ws://localhost:1884')
+
+    const {register, handleSubmit, reset} = useForm({shouldUseNativeValidation: true})
+
+    const onSubmit = async (comment) => {
+        const nickname = (await CheckCookie()).nickname
+        client.publish(room, ([nickname, comment.message]).toString())
+        reset()
     }
 
     return (<div className="flex flex-col">
             <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group mb-6">
-                    <input {...register("name", {required: "Room name required"})} type="text" className="form-control block
+                    <input {...register("message", {required: "message required"})} type="text" className="form-control block
         w-6/12
         mx-auto
         text-center
@@ -34,11 +35,11 @@ const Chat = () => {
         ease-in-out
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput125"
-                           placeholder="Room Name"/>
+                           placeholder="Message"/>
                 </div>
                 <button type="submit"
                         className="w-6/12 mx-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                    Hop in
+                    Send
                 </button>
             </form>
         </div>
@@ -46,4 +47,4 @@ const Chat = () => {
 
 };
 
-export default Chat;
+export default PubChat
