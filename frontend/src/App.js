@@ -10,6 +10,7 @@ import Chat from "./components/Chat"
 import Leaderboard from "./components/Leaderboard"
 import HomeButton from "./components/HomeButton"
 import Profile from "./components/Profile";
+import ChatRoom from "./components/ChatRoom";
 
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
                 <Route path="/:nickname/game" element={<Game/>}/>
                 <Route path="/:nickname/chat" element={<Chat/>}/>
                 <Route path="/leaderboard" element={<Leaderboard/>}/>
+                <Route path="/:nickname/chat/:room" element={<ChatRoom/>}/>
                 <Route path="*" element={<Start/>}/>
             </Routes>
         </div>

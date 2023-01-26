@@ -45,7 +45,7 @@ const addNewUser = async (user) => {
     }
 };
 
-const login = async (user, res) => {
+const login = async (user) => {
     try {
         const session = driver.session({database});
         const result = await session.run(`MATCH (u:User {email: $email}) RETURN u`, {email: user.email});

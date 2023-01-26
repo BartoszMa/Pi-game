@@ -6,3 +6,5 @@ db/logs
 /express_server/bablerc
 /express_server/.env
 /express_server/yarn.lock
+
+/broker_mqtt/node_modules
