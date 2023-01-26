@@ -1,22 +1,14 @@
-
-
-async function compareStrings(string1, filePath) {
-  try {
-    const response = await fetch(filePath);
-    const fileText = await response.text();
+const compareStrings = (string1, string2) => {
     let count = 0;
     for (let i = 0; i < string1.length; i++) {
-        if (string1[i] !== fileText[i]) {
+        if (string1[i] !== string2[i]) {
             break;
         }
         count++;
     }
-    return count;
-  } catch (error) {
-    console.log(error);
-  }
-}
 
+    return count;
+}
 
 
 export default compareStrings

@@ -78,10 +78,24 @@ const createNewGame = async (user) => {
         throw new Error(error);
     }
 }
+//
+const putNewScore = async (game) => {
+    try {
+        console.log('pnssc  ' + game.score)
+        console.log('pnsid  ' + game.id)
+        const session = driver.session({database})
+        await session.run(`MATCH (game: Game) WHERE game.id = '${game.id}' SET game.score = '${game.score}'`)
+        await session.close();
+        return {status: 'success', message: 'score added'}
+    } catch (error) {
+        throw new Error(error)
+    }
+}
 
 export default {
     findAll,
     addNewUser,
     login,
-    createNewGame
+    createNewGame,
+    putNewScore
 }

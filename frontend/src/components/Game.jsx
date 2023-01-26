@@ -1,27 +1,33 @@
 import RedirectIfNotLogged from "./RedirectIfNotLogged";
 import {useNavigate, useParams} from "react-router-dom";
-import {v4 as uuidv4} from 'uuid';
 import React, {useState, useEffect} from "react";
+import { v4 as uuidv4 } from 'uuid';
 import {useForm} from "react-hook-form";
-import CompareToPi from "./CompareToPi";
-import compareToPi from "./CompareToPi";
+import pi from "./pi";
 import compareStrings from "./CompareToPi";
+
 
 const Game = () => {
     RedirectIfNotLogged();
     const {nickname} = useParams()
-    const id = uuidv4();
+
+
     const [gameCreated, setGameCreated] = useState(false);
     const {register, handleSubmit} = useForm({shouldUseNativeValidation: true})
     const navigate = useNavigate()
+    const [id, setId] = useState(uuidv4())
+
+
 
     useEffect(() => {
         console.log(nickname)
         console.log(gameCreated)
+        console.log(id)
         if (!gameCreated) {
-            // const createGame = async () => {
+
+
             try {
-                console.log('test')
+
                 fetch(`http://localhost:4200/${nickname}/game`, {
                     credentials: "include",
                     method: "POST",
@@ -40,11 +46,11 @@ const Game = () => {
                 console.log(error);
             }
         }
-    }, [gameCreated, nickname, id]);
+    }, [gameCreated, nickname]);
 
     const updateScore = async (id, score) => {
         try {
-            await fetch(`http://localhost:4200/user/${nickname}/score`, {
+            await fetch(`http://localhost:4200/${nickname}/game`, {
                 credentials: "include",
                 method: "PUT",
                 headers: {
@@ -62,9 +68,8 @@ const Game = () => {
     }
 
     const onSubmit = async (game) => {
-        const result = await compareStrings(game.pi,'../pi.txt')
-        console.log(result)
-        // updateScore(id, result)
+        const result = compareStrings(game.pi, pi)
+        await updateScore(id, result)
         navigate(`/${nickname}/home`)
     }
 

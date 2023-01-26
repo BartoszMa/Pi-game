@@ -59,7 +59,14 @@ user.get('/logout', (req, res) => {
 
 user.post('/:nickname/game', async (req, res) => {
     await userModel.createNewGame(req.body)
+    console.log(req.body.id)
     console.log("new game")
+    res.json("success")
+})
+
+user.put('/:nickname/game', async (req, res) => {
+    console.log(req.body.id)
+    await userModel.putNewScore(req.body)
     res.json("success")
 })
 
