@@ -1,6 +1,6 @@
 import RedirectIfNotLogged from "./RedirectIfNotLogged";
-import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 
 const Profile = () => {
@@ -8,6 +8,7 @@ const Profile = () => {
     const {register, handleSubmit} = useForm({shouldUseNativeValidation: true})
     const [profile, setProfile] = useState({})
     const {nickname} = useParams()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,13 +44,45 @@ const Profile = () => {
         }
     }
 
+    const handleLogout = async () => {
+        try {
+            await fetch('http://localhost:4200/logout', {
+                method: 'GET',
+                credentials: 'include'
+            });
+        } catch (err) {
+            console.log(err);
+        } finally {
+            navigate('/');
+        }
+    }
+
+    const deleteProfile = async () => {
+        handleLogout()
+        try {
+            await fetch(`http://localhost:4200/${nickname}`, {
+                credentials: "include",
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nickname: nickname,
+                })
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const onSubmit = async (user) => {
 
         await updateMail(nickname, user.email)
     }
+    console.log(profile)
 
     return (
-        <div>
+        <div className={"flex flex-col"}>
             <div
                 className={"w-6/12 mx-auto text-center px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0"}>
                 <div>
@@ -85,6 +118,12 @@ const Profile = () => {
                     Change Email
                 </button>
             </form>
+
+            <button
+                className="mx-auto mb-6 mt-10 w-6/12 mx-auto bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                onClick={() => deleteProfile(nickname)}>
+                Delete Account
+            </button>
         </div>
     )
 

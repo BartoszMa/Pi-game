@@ -80,6 +80,11 @@ user.get('/:nickname', async (req, res) => {
     res.json(result)
 })
 
+user.delete('/:nickname', async (req, res) => {
+    await userModel.deleteUser(req.params.nickname)
+    res.json("success")
+})
+
 user.put('/:nickname', async (req, res) => {
     await userModel.putUser(req.body)
     res.json(req.body)

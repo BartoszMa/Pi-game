@@ -132,6 +132,17 @@ const getBestScore = async () => {
     }
 }
 
+const deleteUser = async (nickname) => {
+    try {
+        const session = driver.session({database})
+        await session.run(`MATCH (u:User {nickname: '${nickname}'}) DETACH DELETE u`)
+        await session.close()
+        return {status: "success"}
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
 
 export default {
     findAll,
@@ -141,5 +152,6 @@ export default {
     putNewScore,
     getUser,
     putUser,
-    getBestScore
+    getBestScore,
+    deleteUser
 }
