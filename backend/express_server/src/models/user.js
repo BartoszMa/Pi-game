@@ -81,8 +81,6 @@ const createNewGame = async (user) => {
 //
 const putNewScore = async (game) => {
     try {
-        console.log('pnssc  ' + game.score)
-        console.log('pnsid  ' + game.id)
         const session = driver.session({database})
         await session.run(`MATCH (game: Game) WHERE game.id = '${game.id}' SET game.score = '${game.score}'`)
         await session.close();
@@ -92,10 +90,56 @@ const putNewScore = async (game) => {
     }
 }
 
+const getUser = async (nickname) => {
+    try {
+        const session = driver.session({database})
+        const result = await session.run(`MATCH (u:User) WHERE u.nickname = '${nickname}' RETURN u`)
+        await session.close();
+        if (result.records[0]) {
+            return {
+                nickname: result.records[0].get('u').properties.nickname,
+                email: result.records[0].get('u').properties.email
+            };
+        } else {
+            return null;
+        }
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+const putUser = async (user) => {
+    try {
+        const session = driver.session({database})
+        await session.run(`MATCH (u:User) WHERE u.nickname = '${user.nickname}' SET u.email = '${user.email}' RETURN u`)
+        await session.close();
+
+        return {status: "success"}
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+
+const getBestScore = async () => {
+    try {
+        const session = driver.session({database})
+        const result = await session.run(`MATCH (g:Game) RETURN g ORDER BY g.score ASC LIMIT 10`)
+        await session.close()
+        return result.records.map(record => record.get('g').properties)
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+
 export default {
     findAll,
     addNewUser,
     login,
     createNewGame,
-    putNewScore
+    putNewScore,
+    getUser,
+    putUser,
+    getBestScore
 }

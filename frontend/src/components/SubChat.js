@@ -13,7 +13,6 @@ const SubChat = ({topic}) => {
         client.subscribe(topic)
     })
 
-// {msg.split(',')[0]}
     return (<div>
         {message.map((msg, index) => {
             return <div key={index}

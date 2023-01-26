@@ -14,7 +14,7 @@ user.post('/registration', async (req, res) => {
     const result = await userModel.addNewUser(req.body)
     if (result.status === 'success') {
         res.cookie('isLoggedIn', true, {
-            expires: expiresTime,
+            expires: new Date(Date.now() + expiresInMinutes * 60000),
             httpOnly: true,
         });
         res.json({status: 'success', nickname: result.message})
@@ -57,6 +57,11 @@ user.get('/logout', (req, res) => {
     res.redirect('/login');
 });
 
+user.get('/leaderboard', async (req, res) => {
+    const result = await userModel.getBestScore();
+    res.json(result)
+});
+
 user.post('/:nickname/game', async (req, res) => {
     await userModel.createNewGame(req.body)
     console.log(req.body.id)
@@ -69,6 +74,18 @@ user.put('/:nickname/game', async (req, res) => {
     await userModel.putNewScore(req.body)
     res.json("success")
 })
+
+user.get('/:nickname', async (req, res) => {
+    const result = await userModel.getUser(req.params.nickname)
+    res.json(result)
+})
+
+user.put('/:nickname', async (req, res) => {
+    await userModel.putUser(req.body)
+    res.json(req.body)
+})
+
+
 
 
 export default user
