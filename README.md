@@ -1,1 +1,1 @@
-
+A web application has been developed for a Web Protocols course. The application is a game that involves guessing the value of Pi, features a login page and MQTT chat. During the project, a focus was placed on safety of the application. The backend is written in JS express, the frontend in React, and the Neo4j database.
